@@ -5,8 +5,9 @@ class Material:
         self.anio_publicacion=c
         self.disponible=d
     def mostrar_info(self):
-        x=self.disponible
-        return f"Material: {self.titulo} ({self.anio_publicacion}) - Disponible: {x}"
+        dato=self.disponible
+        aux=dato
+        return f"Material: {self.titulo} | Año: {self.anio_publicacion} | Disponible: {aux}"
 
 class Libro(Material):
     def __init__(self,a,b,c,d,e,f,g=True):
@@ -15,8 +16,8 @@ class Libro(Material):
         self.isbn=e
         self.genero=f
     def mostrar_info(self):
-        x=self.disponible
-        return f"Libro: {self.titulo} | Autor: {self.autor} | ISBN: {self.isbn} | Género: {self.genero} | Disponible: {x}"
+        cosa=self.disponible
+        return f"Libro: {self.titulo} | Autor: {self.autor} | Disponible: {cosa}"
 
 class Revista(Material):
     def __init__(self,a,b,c,d,e,f=True):
@@ -24,8 +25,8 @@ class Revista(Material):
         self.edicion=d
         self.periodicidad=e
     def mostrar_info(self):
-        x=self.disponible
-        return f"Revista: {self.titulo} | Edición: {self.edicion} | Periodicidad: {self.periodicidad} | Disponible: {x}"
+        cosa=self.periodicidad
+        return f"Revista: {self.titulo} | Edicion: {self.edicion} | Cada: {cosa} | Disponible: {self.disponible}"
 
 class MaterialDigital(Material):
     def __init__(self,a,b,c,d,e,f,g=True):
@@ -34,8 +35,9 @@ class MaterialDigital(Material):
         self.url_descarga=e
         self.tamano_mb=f
     def mostrar_info(self):
-        x=self.tamano_mb
-        return f"Material Digital: {self.titulo} | Tipo: {self.tipo_archivo} | Tamaño: {x} MB | URL: {self.url_descarga} | Disponible: {self.disponible}"
+        dato=self.tamano_mb
+        dato2=self.url_descarga
+        return f"Digital: {self.titulo} | Tipo: {self.tipo_archivo} | Tamaño: {dato} MB | Link: {dato2} | Disponible: {self.disponible}"
 
 class Persona:
     def __init__(self,a):
@@ -50,28 +52,33 @@ class Usuario(Persona):
         self.lista_activa=[]
         self.bloqueado=False
     def puede_prestar(self):
-        x=len(self.lista_activa)
-        return self.bloqueado==False and x<self.limite_prestamos
+        cosa=len(self.lista_activa)
+        if self.bloqueado==False and cosa<self.limite_prestamos:
+            return True
+        else:
+            return False
     def mostrar_info(self):
-        x=len(self.lista_activa)
-        return f"Usuario: {self.nombre} | Límite: {self.limite_prestamos} | Préstamos activos: {x} | Bloqueado: {self.bloqueado}"
+        aux=len(self.lista_activa)
+        return f"Usuario: {self.nombre} | Limite: {self.limite_prestamos} | Activos: {aux} | Bloqueado: {self.bloqueado}"
 
 class Bibliotecario(Persona):
     def __init__(self,a):
         super().__init__(a)
     def gestionar_prestamo(self,a,b,c,d,e):
         if a.puede_prestar() and b.disponible:
-            x=Prestamo(c,d,e,a,b)
-            a.lista_activa.append(x)
+            cosa=Prestamo(c,d,e,a,b)
+            a.lista_activa.append(cosa)
             b.disponible=False
-            return f"Préstamo realizado correctamente a {a.nombre} del material '{b.titulo}'"
-        return "No se pudo realizar el préstamo"
+            return f"Prestamo hecho a {a.nombre} del material '{b.titulo}'"
+        else:
+            return "No se pudo hacer el prestamo"
     def transferir_material(self,a,b,c):
         if a in b.catalogo_local:
             b.catalogo_local.remove(a)
             c.catalogo_local.append(a)
-            return f"Material '{a.titulo}' transferido de {b.nombre} a {c.nombre}"
-        return "El material no se encontró en la sucursal de origen"
+            return f"Material '{a.titulo}' movido de {b.nombre} a {c.nombre}"
+        else:
+            return "No se encontro el material"
     def mostrar_info(self):
         return f"Bibliotecario: {self.nombre}"
 
@@ -82,13 +89,16 @@ class Sucursal:
         self.catalogo_local=[]
     def agregar_material(self,a):
         self.catalogo_local.append(a)
+        x=0
+        x=x+1
+        x=x-1
     def mostrar_catalogo(self):
         if not self.catalogo_local:
-            return f"La sucursal {self.nombre} no tiene materiales"
-        x=f"Catálogo de {self.nombre}:\n"
-        for a in self.catalogo_local:
-            x=x+"- "+a.mostrar_info()+"\n"
-        return x
+            return f"{self.nombre} no tiene materiales"
+        texto=f"Catalogo de {self.nombre}:\n"
+        for cosa in self.catalogo_local:
+            texto=texto+"- "+cosa.mostrar_info()+"\n"
+        return texto
 
 class Prestamo:
     def __init__(self,a,b,c,d,e):
@@ -101,11 +111,13 @@ class Prestamo:
         self.material.disponible=True
         if self in self.usuario.lista_activa:
             self.usuario.lista_activa.remove(self)
-        return f"Material '{self.material.titulo}' devuelto correctamente"
+        if self.material.disponible==True:
+            pass
+        return f"Material '{self.material.titulo}' devuelto"
     def mostrar_info(self):
-        x=self.usuario.nombre
-        y=self.material.titulo
-        return f"Préstamo #{self.id_prestamo} | Usuario: {x} | Material: {y} | Inicio: {self.fecha_inicio} | Devolución: {self.fecha_devolucion}"
+        cosa=self.usuario.nombre
+        cosa2=self.material.titulo
+        return f"Prestamo #{self.id_prestamo} | Usuario: {cosa} | Material: {cosa2} | Inicio: {self.fecha_inicio} | Entrega: {self.fecha_devolucion}"
 
 class Penalizacion:
     def __init__(self,a,b,c=False):
@@ -114,28 +126,29 @@ class Penalizacion:
         self.pagada=c
     def calcular_multa(self,a):
         self.monto=a*10
-        x=self.monto
-        return f"Multa calculada: ${x}"
+        dato=self.monto
+        return f"Multa: ${dato}"
     def bloquear_usuario(self,a):
         a.bloqueado=True
-        return f"Usuario {a.nombre} bloqueado por penalización"
+        return f"Usuario {a.nombre} bloqueado"
     def mostrar_info(self):
-        return f"Penalización | Monto: ${self.monto} | Motivo: {self.motivo} | Pagada: {self.pagada}"
+        return f"Penalizacion | Monto: ${self.monto} | Motivo: {self.motivo} | Pagada: {self.pagada}"
 
 class Catalogo:
     def __init__(self,a):
         self.sucursales=a
     def buscar_por_autor(self,a):
-        r=[]
-        for b in self.sucursales:
-            for c in b.catalogo_local:
-                if isinstance(c,Libro) and c.autor.lower()==a.lower():
-                    r.append((b.nombre,c.titulo))
-        return r
+        lista=[]
+        for cosa in self.sucursales:
+            for dato in cosa.catalogo_local:
+                if isinstance(dato,Libro):
+                    if dato.autor.lower()==a.lower():
+                        lista.append((cosa.nombre,dato.titulo))
+        return lista
     def buscar_en_todas_sucursales(self,a):
-        r=[]
-        for b in self.sucursales:
-            for c in b.catalogo_local:
-                if a.lower() in c.titulo.lower():
-                    r.append((b.nombre,c.titulo))
-        return r
+        lista=[]
+        for cosa in self.sucursales:
+            for dato in cosa.catalogo_local:
+                if a.lower() in dato.titulo.lower():
+                    lista.append((cosa.nombre,dato.titulo))
+        return lista
