@@ -1,184 +1,141 @@
 class Material:
-    def __init__(self, id_material, titulo, anio_publicacion, disponible=True):
-        self.id_material = id_material
-        self.titulo = titulo
-        self.anio_publicacion = anio_publicacion
-        self.disponible = disponible
-
+    def __init__(self,a,b,c,d=True):
+        self.id_material=a
+        self.titulo=b
+        self.anio_publicacion=c
+        self.disponible=d
     def mostrar_info(self):
-        return f"Material: {self.titulo} ({self.anio_publicacion}) - Disponible: {self.disponible}"
-
+        x=self.disponible
+        return f"Material: {self.titulo} ({self.anio_publicacion}) - Disponible: {x}"
 
 class Libro(Material):
-    def __init__(self, id_material, titulo, anio_publicacion, autor, isbn, genero, disponible=True):
-        super().__init__(id_material, titulo, anio_publicacion, disponible)
-        self.autor = autor
-        self.isbn = isbn
-        self.genero = genero
-
+    def __init__(self,a,b,c,d,e,f,g=True):
+        super().__init__(a,b,c,g)
+        self.autor=d
+        self.isbn=e
+        self.genero=f
     def mostrar_info(self):
-        return (
-            f"Libro: {self.titulo} | Autor: {self.autor} | ISBN: {self.isbn} | "
-            f"Género: {self.genero} | Disponible: {self.disponible}"
-        )
-
+        x=self.disponible
+        return f"Libro: {self.titulo} | Autor: {self.autor} | ISBN: {self.isbn} | Género: {self.genero} | Disponible: {x}"
 
 class Revista(Material):
-    def __init__(self, id_material, titulo, anio_publicacion, edicion, periodicidad, disponible=True):
-        super().__init__(id_material, titulo, anio_publicacion, disponible)
-        self.edicion = edicion
-        self.periodicidad = periodicidad
-
+    def __init__(self,a,b,c,d,e,f=True):
+        super().__init__(a,b,c,f)
+        self.edicion=d
+        self.periodicidad=e
     def mostrar_info(self):
-        return (
-            f"Revista: {self.titulo} | Edición: {self.edicion} | "
-            f"Periodicidad: {self.periodicidad} | Disponible: {self.disponible}"
-        )
-
+        x=self.disponible
+        return f"Revista: {self.titulo} | Edición: {self.edicion} | Periodicidad: {self.periodicidad} | Disponible: {x}"
 
 class MaterialDigital(Material):
-    def __init__(self, id_material, titulo, anio_publicacion, tipo_archivo, url_descarga, tamano_mb, disponible=True):
-        super().__init__(id_material, titulo, anio_publicacion, disponible)
-        self.tipo_archivo = tipo_archivo
-        self.url_descarga = url_descarga
-        self.tamano_mb = tamano_mb
-
+    def __init__(self,a,b,c,d,e,f,g=True):
+        super().__init__(a,b,c,g)
+        self.tipo_archivo=d
+        self.url_descarga=e
+        self.tamano_mb=f
     def mostrar_info(self):
-        return (
-            f"Material Digital: {self.titulo} | Tipo: {self.tipo_archivo} | "
-            f"Tamaño: {self.tamano_mb} MB | URL: {self.url_descarga} | Disponible: {self.disponible}"
-        )
-
+        x=self.tamano_mb
+        return f"Material Digital: {self.titulo} | Tipo: {self.tipo_archivo} | Tamaño: {x} MB | URL: {self.url_descarga} | Disponible: {self.disponible}"
 
 class Persona:
-    def __init__(self, nombre):
-        self.nombre = nombre
-
+    def __init__(self,a):
+        self.nombre=a
     def mostrar_info(self):
         return f"Persona: {self.nombre}"
 
-
 class Usuario(Persona):
-    def __init__(self, nombre, limite_prestamos=3):
-        super().__init__(nombre)
-        self.limite_prestamos = limite_prestamos
-        self.lista_activa = []
-        self.bloqueado = False
-
+    def __init__(self,a,b=3):
+        super().__init__(a)
+        self.limite_prestamos=b
+        self.lista_activa=[]
+        self.bloqueado=False
     def puede_prestar(self):
-        return not self.bloqueado and len(self.lista_activa) < self.limite_prestamos
-
+        x=len(self.lista_activa)
+        return self.bloqueado==False and x<self.limite_prestamos
     def mostrar_info(self):
-        return (
-            f"Usuario: {self.nombre} | Límite: {self.limite_prestamos} | "
-            f"Préstamos activos: {len(self.lista_activa)} | Bloqueado: {self.bloqueado}"
-        )
-
+        x=len(self.lista_activa)
+        return f"Usuario: {self.nombre} | Límite: {self.limite_prestamos} | Préstamos activos: {x} | Bloqueado: {self.bloqueado}"
 
 class Bibliotecario(Persona):
-    def __init__(self, nombre):
-        super().__init__(nombre)
-
-    def gestionar_prestamo(self, usuario, material, id_prestamo, fecha_inicio, fecha_devolucion):
-        if usuario.puede_prestar() and material.disponible:
-            prestamo = Prestamo(id_prestamo, fecha_inicio, fecha_devolucion, usuario, material)
-            usuario.lista_activa.append(prestamo)
-            material.disponible = False
-            return f"Préstamo realizado correctamente a {usuario.nombre} del material '{material.titulo}'"
+    def __init__(self,a):
+        super().__init__(a)
+    def gestionar_prestamo(self,a,b,c,d,e):
+        if a.puede_prestar() and b.disponible:
+            x=Prestamo(c,d,e,a,b)
+            a.lista_activa.append(x)
+            b.disponible=False
+            return f"Préstamo realizado correctamente a {a.nombre} del material '{b.titulo}'"
         return "No se pudo realizar el préstamo"
-
-    def transferir_material(self, material, sucursal_origen, sucursal_destino):
-        if material in sucursal_origen.catalogo_local:
-            sucursal_origen.catalogo_local.remove(material)
-            sucursal_destino.catalogo_local.append(material)
-            return (
-                f"Material '{material.titulo}' transferido de "
-                f"{sucursal_origen.nombre} a {sucursal_destino.nombre}"
-            )
+    def transferir_material(self,a,b,c):
+        if a in b.catalogo_local:
+            b.catalogo_local.remove(a)
+            c.catalogo_local.append(a)
+            return f"Material '{a.titulo}' transferido de {b.nombre} a {c.nombre}"
         return "El material no se encontró en la sucursal de origen"
-
     def mostrar_info(self):
         return f"Bibliotecario: {self.nombre}"
 
-
 class Sucursal:
-    def __init__(self, id_sucursal, nombre):
-        self.id_sucursal = id_sucursal
-        self.nombre = nombre
-        self.catalogo_local = []
-
-    def agregar_material(self, material):
-        self.catalogo_local.append(material)
-
+    def __init__(self,a,b):
+        self.id_sucursal=a
+        self.nombre=b
+        self.catalogo_local=[]
+    def agregar_material(self,a):
+        self.catalogo_local.append(a)
     def mostrar_catalogo(self):
         if not self.catalogo_local:
             return f"La sucursal {self.nombre} no tiene materiales"
-        texto = f"Catálogo de {self.nombre}:\n"
-        for material in self.catalogo_local:
-            texto += "- " + material.mostrar_info() + "\n"
-        return texto
-
+        x=f"Catálogo de {self.nombre}:\n"
+        for a in self.catalogo_local:
+            x=x+"- "+a.mostrar_info()+"\n"
+        return x
 
 class Prestamo:
-    def __init__(self, id_prestamo, fecha_inicio, fecha_devolucion, usuario, material):
-        self.id_prestamo = id_prestamo
-        self.fecha_inicio = fecha_inicio
-        self.fecha_devolucion = fecha_devolucion
-        self.usuario = usuario
-        self.material = material
-
+    def __init__(self,a,b,c,d,e):
+        self.id_prestamo=a
+        self.fecha_inicio=b
+        self.fecha_devolucion=c
+        self.usuario=d
+        self.material=e
     def devolver_material(self):
-        self.material.disponible = True
+        self.material.disponible=True
         if self in self.usuario.lista_activa:
             self.usuario.lista_activa.remove(self)
         return f"Material '{self.material.titulo}' devuelto correctamente"
-
     def mostrar_info(self):
-        return (
-            f"Préstamo #{self.id_prestamo} | Usuario: {self.usuario.nombre} | "
-            f"Material: {self.material.titulo} | Inicio: {self.fecha_inicio} | "
-            f"Devolución: {self.fecha_devolucion}"
-        )
-
+        x=self.usuario.nombre
+        y=self.material.titulo
+        return f"Préstamo #{self.id_prestamo} | Usuario: {x} | Material: {y} | Inicio: {self.fecha_inicio} | Devolución: {self.fecha_devolucion}"
 
 class Penalizacion:
-    def __init__(self, monto, motivo, pagada=False):
-        self.monto = monto
-        self.motivo = motivo
-        self.pagada = pagada
-
-    def calcular_multa(self, dias_retraso):
-        self.monto = dias_retraso * 10
-        return f"Multa calculada: ${self.monto}"
-
-    def bloquear_usuario(self, usuario):
-        usuario.bloqueado = True
-        return f"Usuario {usuario.nombre} bloqueado por penalización"
-
+    def __init__(self,a,b,c=False):
+        self.monto=a
+        self.motivo=b
+        self.pagada=c
+    def calcular_multa(self,a):
+        self.monto=a*10
+        x=self.monto
+        return f"Multa calculada: ${x}"
+    def bloquear_usuario(self,a):
+        a.bloqueado=True
+        return f"Usuario {a.nombre} bloqueado por penalización"
     def mostrar_info(self):
         return f"Penalización | Monto: ${self.monto} | Motivo: {self.motivo} | Pagada: {self.pagada}"
 
-
 class Catalogo:
-    def __init__(self, sucursales):
-        self.sucursales = sucursales
-
-    def buscar_por_autor(self, autor):
-        resultados = []
-        for sucursal in self.sucursales:
-            for material in sucursal.catalogo_local:
-                if isinstance(material, Libro) and material.autor.lower() == autor.lower():
-                    resultados.append((sucursal.nombre, material.titulo))
-        return resultados
-
-    def buscar_en_todas_sucursales(self, titulo):
-        resultados = []
-        for sucursal in self.sucursales:
-            for material in sucursal.catalogo_local:
-                if titulo.lower() in material.titulo.lower():
-                    resultados.append((sucursal.nombre, material.titulo))
-        return resultados
-
-
-
-
+    def __init__(self,a):
+        self.sucursales=a
+    def buscar_por_autor(self,a):
+        r=[]
+        for b in self.sucursales:
+            for c in b.catalogo_local:
+                if isinstance(c,Libro) and c.autor.lower()==a.lower():
+                    r.append((b.nombre,c.titulo))
+        return r
+    def buscar_en_todas_sucursales(self,a):
+        r=[]
+        for b in self.sucursales:
+            for c in b.catalogo_local:
+                if a.lower() in c.titulo.lower():
+                    r.append((b.nombre,c.titulo))
+        return r
