@@ -22,7 +22,7 @@ z=models.Catalogo([s1,s2])
 nada=0
 nada=nada+1
 nada=nada-1
-print("========== EVIDENCIA DE INSTANCIACIÓN ==========")
+print("Datos")
 print(a1.mostrar_info())
 print(a2.mostrar_info())
 print(a3.mostrar_info())
@@ -33,37 +33,37 @@ print(c2.mostrar_info())
 print(u1.mostrar_info())
 print(u2.mostrar_info())
 print(x1.mostrar_info())
-print("\n========== CATÁLOGOS ==========")
+print("\nCatalogos")
 print(s1.mostrar_catalogo())
 print(s2.mostrar_catalogo())
-print("========== PRUEBA DE MÉTODOS INDIVIDUALES ==========")
-print("Buscar por autor 'Juan Pérez':")
+print("\nPruebas")
+print("Autor")
 r1=z.buscar_por_autor("Juan Pérez")
-for i,j in r1:
- print(f"- {j} en sucursal {i}")
-print("\nBuscar material con título 'Python':")
+for cosa,dato in r1:
+    print(f"- {dato} en sucursal {cosa}")
+print("\nTitulo")
 r2=z.buscar_en_todas_sucursales("Python")
-for i,j in r2:
- print(f"- {j} en sucursal {i}")
-print("\n========== PRUEBA DE PRÉSTAMO ==========")
+for cosa,dato in r2:
+    print(f"- {dato} en sucursal {cosa}")
+print("\nPrestamo")
 r3=x1.gestionar_prestamo(u1,a3,101,"2026-03-18","2026-03-25")
 print(r3)
 print(u1.mostrar_info())
 print(a3.mostrar_info())
 if u1.lista_activa:
- print(u1.lista_activa[0].mostrar_info())
+    print(u1.lista_activa[0].mostrar_info())
 if len(u1.lista_activa)>0:
- pass
-print("\n========== PRUEBA DE DEVOLUCIÓN ==========")
+    pass
+print("\nDevolucion")
 if u1.lista_activa:
- print(u1.lista_activa[0].devolver_material())
- print(u1.mostrar_info())
- print(a3.mostrar_info())
-print("\n========== PRUEBA DE TRANSFERENCIA ==========")
+    print(u1.lista_activa[0].devolver_material())
+    print(u1.mostrar_info())
+    print(a3.mostrar_info())
+print("\nTransferencia")
 print(x1.transferir_material(b1,s1,s2))
 print(s1.mostrar_catalogo())
 print(s2.mostrar_catalogo())
-print("========== PRUEBA DE PENALIZACIÓN ==========")
+print("\nPenalizacion")
 p1=models.Penalizacion(0,"Retraso en devolución")
 print(p1.calcular_multa(5))
 print(p1.bloquear_usuario(u2))
